@@ -3,8 +3,9 @@ import {
     View,
 } from 'react-native';
 
+import { Provider } from 'react-redux';
+import store from './store'
 
-import SearchBar from './components/SearchBar';
 import CharList from './components/CharList';
 
 class MarvelApp extends Component {
@@ -14,15 +15,17 @@ class MarvelApp extends Component {
             characters: [],
             fullChars: [],
             showCharSearched: false,
-            text:''
+            text: ''
         };
     }
-    
-    render() {            
+
+    render() {
         return (
-            <View style={{flex:1}}>                
-                <CharList state={this.state} />
-            </View>
+            <Provider store={store} >
+                <View style={{ flex: 1 }}>
+                    <CharList state={this.state} />
+                </View>
+            </Provider>
         );
     }
 }

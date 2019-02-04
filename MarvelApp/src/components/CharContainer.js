@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity,Alert} from 'react-native';
 import { width, height, fontSize } from '../constants/photoProportions';
 const sizePhoto = 'portrait_fantastic';
 
@@ -16,7 +16,7 @@ class CharContainer extends Component {
             (item.id === id ) ? selectedChar = item : null;
         })
         console.log(selectedChar.description);
-
+        Alert.alert(selectedChar.description);
     }
     render() {
         return (
