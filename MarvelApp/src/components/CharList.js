@@ -1,36 +1,32 @@
 import React, { Component } from "react";
 import {
-    StyleSheet,
     FlatList,
     SafeAreaView,
-    View,
-    ScrollView
 } from "react-native";
 import { List } from "react-native-elements";
-import API_INFO from '../constants/charaptersApi';
+import API_INFO from '../constants/charactersApi';
 import axios from 'axios';
 import SearchBar from './SearchBar';
 import CharContainer from './CharContainer';
+import {connect} from 'react-redux';
+import {pullChars} from '../actions'
 
 class CharList extends Component {
     constructor(props) {
         super(props);
-        this.state = this.props.state;
     }
-
     componentWillMount() {
         axios.get(API_INFO.url, {
             params: {
                 ts: API_INFO.ts,
                 apikey: API_INFO.apiKey,
-                hash: API_INFO.hash,
-                
-                limit:40
+                hash: API_INFO.hash,                
+                limit:20
             }
         })
             .then(res => {
-                const characters = res.data.data.results;
-                this.setState({ characters,fullChars:[...characters] });                
+                let characters = res.data.data.results;
+                this.props.dispatch(pullChars(characters));               
             })
             .catch(err => {
                 console.log(err);
@@ -38,16 +34,16 @@ class CharList extends Component {
     }
 
     renderHeader = () => {
-        return (<SearchBar state={this.state} />);
+        return (<SearchBar />);
     }
 
     render() {
         return (
             <SafeAreaView>
                     <FlatList
-                        data={this.state.characters}
+                        data={this.props.characters}
                         renderItem={({ item }) => (
-                            <CharContainer state={this.state} char={item} />
+                            <CharContainer char={item} />
                         )}
                         keyExtractor={char => char.name}
                         numColumns={3}
@@ -58,4 +54,7 @@ class CharList extends Component {
         );
     }
 }
-export default CharList;
+const mapStateToProps = state => ({
+    characters: state.charactersReducers.characters
+});
+export default connect(mapStateToProps)(CharList);

@@ -7,73 +7,29 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import _ from 'lodash';
+import { connect } from 'react-redux';
+import { updateChars, pullChars } from '../actions';
 
 class SearchBar extends Component {
     constructor(props) {
         super(props);
-        this.state = this.props.state;
     }
-
-    // callback = ()=> {
-
-    //     // console.warn(this.state.showCharSearched);
-    // }
-
-    // a = (text,callback) => {
-    //     const EMPTY_ARRAY = [];
-
-    //     if (text === '') {
-    //         this.setState({
-    //             charsSearched: [...EMPTY_ARRAY],
-    //             showCharSearched: false
-    //         });
-    //         console.warn("false");
-    //     } else {
-    //         this.setState({
-    //             text: text,
-    //             showCharSearched: true
-    //         });
-    //         console.warn(this.state.text);
-    //         console.warn("true");
-    //     }
-    //     callback();
-    // }
-
-    // changeText = (text) => {
-
-
-    //     this.a(text,this.callback);
-
-
-
-    // }
-
     handleSearch = text => {
+        console.log(text);
         const formatName = text.toLowerCase();
-        // console.log(formatName);
-        const { fullChars } = this.props.state;
-        
+        const { fullChars } = this.props;
+        console.log('Numero total de Personagens: ' + fullChars.length);
         
         const data = _.filter(fullChars, item => {
-            // console.log(item.name);
             const formatItem = item.name.toLowerCase();
-            // console.log(formatName);
-            // console.log(formatItem);
-            if(formatItem.includes(formatName)){
-                // console.log('**********************Igual************************');
-                return item;
-            }else{
-                // console.log("a");
-            }
-
-            
-            // return formatName.indexOf(item.name.toLowerCase()) > -1;
+            return (formatItem.includes(formatName)) ? item : null;            
         });
-        data.map(item=>{
+
+        data.map(item => {
             console.log(item.name);
         })
         console.log("****************************************")
-        this.setState({ text, characters: data });
+        this.props.dispatch(updateChars(data));        
     }
 
 
@@ -82,26 +38,26 @@ class SearchBar extends Component {
         return (
             <View style={styles.container}>
                 <TextInput
-                    ref={input => this.buscador = input}
-
                     onChangeText={text => this.handleSearch(text)}
-                    value={this.state.text}
+
                     style={styles.input}
                     placeholder="Buscar Personagem"
                     underlineColorAndroid='transparent'
                     placeholderTextColor="#818081"
                 />
-
                 <View style={styles.iconContainer}>
-                    <TouchableOpacity onPress={() => this.changeText(this.buscador.props.value)} >
-                        <Icon color='#253c77' name='search' size={30} />
-                    </TouchableOpacity>
+                    <Icon color='#253c77' name='search' size={30} />
                 </View>
             </View>
         );
     }
 }
-export default SearchBar;
+
+const mapStateToProps = state => ({
+    fullChars: state.charactersReducers.fullChars
+});
+
+export default connect(mapStateToProps)(SearchBar);
 
 const styles = StyleSheet.create({
     container: {

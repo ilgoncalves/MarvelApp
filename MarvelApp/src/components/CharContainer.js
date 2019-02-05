@@ -8,15 +8,15 @@ class CharContainer extends Component {
         super(props);
     }
     handleButton = (char)=>{
-        const {id} = char;
-        const {characters}=this.props.state;
+        // const {id} = char;
+        // const {characters}=this.props.state;
 
-        var selectedChar; 
-        characters.map(item=>{
-            (item.id === id ) ? selectedChar = item : null;
-        })
-        console.log(selectedChar.description);
-        Alert.alert(selectedChar.description);
+        // var selectedChar; 
+        // characters.map(item=>{
+        //     (item.id === id ) ? selectedChar = item : null;
+        // })
+        // console.log(selectedChar.description);
+        // Alert.alert(selectedChar.description);
     }
     render() {
         return (

@@ -1,3 +1,6 @@
+// ******DEBUG WITH GENYMOTION******
+//     'http://10.0.3.2:3000/v1' 
+
 import React, { Component } from 'react';
 import {
     View,
@@ -11,19 +14,12 @@ import CharList from './components/CharList';
 class MarvelApp extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            characters: [],
-            fullChars: [],
-            showCharSearched: false,
-            text: ''
-        };
     }
-
     render() {
         return (
             <Provider store={store} >
                 <View style={{ flex: 1 }}>
-                    <CharList state={this.state} />
+                    <CharList />
                 </View>
             </Provider>
         );
